@@ -44,9 +44,15 @@ public class MySecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf(csrf -> csrf.disable()).authorizeHttpRequests().requestMatchers("/admin/hello")
-				.hasRole("ADMIN").requestMatchers("/normal/hello").hasRole("NORMAL").anyRequest().permitAll().and()
-				.formLogin();
+//		httpSecurity.csrf(csrf -> csrf.disable()).authorizeHttpRequests().requestMatchers("/admin/hello")
+//				.hasRole("ADMIN").requestMatchers("/normal/hello").hasRole("NORMAL").anyRequest().permitAll().and()
+//				.formLogin();
+
+		httpSecurity.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/admin/hello").hasRole("ADMIN")
+						.requestMatchers("/normal/hello").hasRole("NORMAL").anyRequest().permitAll())
+				.httpBasic(Customizer.withDefaults());
+
 
 		return httpSecurity.build();
 	}
